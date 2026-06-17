@@ -1,7 +1,3 @@
-"""
-Data Models for Indian Railways Decision-Support System
-"""
-
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 from enum import Enum
@@ -19,13 +15,11 @@ class TrainType(str, Enum):
     SPECIAL = "SPECIAL"
     MAINTENANCE = "MAINTENANCE"
 
-
 class Priority(str, Enum):
     CRITICAL = "CRITICAL"   # Rajdhani, Shatabdi
     HIGH = "HIGH"           # Express Mail
     MEDIUM = "MEDIUM"       # Passenger
     LOW = "LOW"             # Freight, Maintenance
-
 
 class TrainStatus(str, Enum):
     ON_TIME = "ON_TIME"
@@ -35,7 +29,6 @@ class TrainStatus(str, Enum):
     RUNNING = "RUNNING"
     CANCELLED = "CANCELLED"
     SLOW_ORDER = "SLOW_ORDER"
-
 
 class TrainMovement(BaseModel):
     train_id: str
@@ -56,7 +49,6 @@ class TrainMovement(BaseModel):
     engine_number: Optional[str] = None
     loco_pilot: Optional[str] = None
 
-
 class SectionConfig(BaseModel):
     section_name: str = "Delhi Division"
     from_station: str = "NDLS"
@@ -70,14 +62,12 @@ class SectionConfig(BaseModel):
     platforms_count: int = 8
     line_capacity_per_hour: int = 24
 
-
 class OptimizationRequest(BaseModel):
     train_ids: List[str]
     section_config: Optional[SectionConfig] = SectionConfig()
     horizon_minutes: int = 120
     objective: str = "minimize_delay"  # minimize_delay, maximize_throughput, balanced
     constraints: Optional[Dict[str, Any]] = {}
-
 
 class ConflictDetail(BaseModel):
     conflict_id: str
@@ -89,7 +79,6 @@ class ConflictDetail(BaseModel):
     severity: str
     recommended_action: str
 
-
 class ScheduleEntry(BaseModel):
     train_id: str
     station: str
@@ -98,7 +87,6 @@ class ScheduleEntry(BaseModel):
     platform: str
     track: str
     action: str  # PASS, STOP, CROSS, OVERTAKE
-
 
 class OptimizationResult(BaseModel):
     status: str
@@ -114,7 +102,6 @@ class OptimizationResult(BaseModel):
     trains_on_time: int
     trains_delayed: int
 
-
 class WhatIfScenario(BaseModel):
     scenario_name: str
     scenario_type: str  # DELAY, BREAKDOWN, WEATHER, EXTRA_TRAIN, TRACK_BLOCK
@@ -124,7 +111,6 @@ class WhatIfScenario(BaseModel):
     duration_minutes: Optional[int] = 60
     description: str = ""
     parameters: Optional[Dict[str, Any]] = {}
-
 
 class SimulationResult(BaseModel):
     scenario_name: str
@@ -137,7 +123,6 @@ class SimulationResult(BaseModel):
     recommended_actions: List[str] = []
     alternative_schedules: List[Dict[str, Any]] = []
     risk_level: str  # LOW, MEDIUM, HIGH, CRITICAL
-
 
 class KPIReport(BaseModel):
     report_time: str
@@ -156,7 +141,6 @@ class KPIReport(BaseModel):
     total_delay_minutes_saved: int
     top_delay_causes: List[Dict[str, Any]] = []
     station_performance: List[Dict[str, Any]] = []
-
 
 class ConflictResolution(BaseModel):
     conflict_id: str
